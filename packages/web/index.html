@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/audio-chatbot.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Apply theme on initial load before React hydrates
+      (function () {
+        try {
+          const storedTheme = localStorage.getItem("theme-store");
+          let theme = "system";
+
+          if (storedTheme) {
+            const themeData = JSON.parse(storedTheme);
+            if (themeData.state && themeData.state.theme) {
+              theme = themeData.state.theme;
+            }
+          }
+
+          const root = document.documentElement;
+          root.classList.remove("light", "dark");
+
+          if (theme === "system") {
+            const systemTheme = window.matchMedia(
+              "(prefers-color-scheme: dark)"
+            ).matches
+              ? "dark"
+              : "light";
+            root.classList.add(systemTheme);
+          } else {
+            root.classList.add(theme);
+          }
+        } catch (e) {
+          console.error("Error applying theme:", e);
+        }
+      })();
+    </script>
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="default"
+      id="apple-status-bar-style"
+    />
+    <meta name="apple-mobile-web-app-title" content="Sonic Nova" />
+    <link rel="apple-touch-icon" href="/icons/image-192x192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#ffffff" id="theme-color" />
+    <script>
+      // Update theme-color meta tag based on theme
+      (function () {
+        try {
+          const storedTheme = localStorage.getItem("theme-store");
+          let theme = "system";
+
+          if (storedTheme) {
+            const themeData = JSON.parse(storedTheme);
+            if (themeData.state && themeData.state.theme) {
+              theme = themeData.state.theme;
+            }
+          }
+
+          const isDark =
+            theme === "dark" ||
+            (theme === "system" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+          // Update theme-color meta tag
+          const themeColorMeta = document.getElementById("theme-color");
+          if (themeColorMeta) {
+            themeColorMeta.setAttribute(
+              "content",
+              isDark ? "#121212" : "#ffffff"
+            );
+          }
+
+          // Update apple-mobile-web-app-status-bar-style meta tag
+          const appleStatusBarMeta = document.getElementById(
+            "apple-status-bar-style"
+          );
+          if (appleStatusBarMeta) {
+            appleStatusBarMeta.setAttribute(
+              "content",
+              isDark ? "black-translucent" : "default"
+            );
+          }
+        } catch (e) {
+          console.error("Error updating theme-color:", e);
+        }
+      })();
+    </script>
+    <title>Sonic Nova Chat</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

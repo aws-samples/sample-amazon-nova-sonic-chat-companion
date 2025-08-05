@@ -1,0 +1,22 @@
+{
+  "name": "amazon-nova-sonic-chat",
+  "version": "1.0.0",
+  "description": "Amazon Nova Sonic Chat",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT-0",
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "turbo": "latest"
+  },
+  "packageManager": "pnpm@10.6.1"
+}

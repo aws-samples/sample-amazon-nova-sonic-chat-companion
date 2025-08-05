@@ -1,0 +1,70 @@
+Target directory: /Users/angmas/Projects/sonic-chat
+Lint:
+✔  binary-exec-lib: Did not find a file matching the specified patterns
+	✔ **/*.jar
+	✔ **/*.exe
+	✔ **/*.dll
+	✔ **/*.pyc
+	✔ **/*.class
+	✔ **/*.so
+	✔ **/*.o
+	✔ **/*.a
+✔  binary-archive: Did not find a file matching the specified patterns
+	✔ **/*.zip
+	✔ **/*.tar
+	✔ **/*.tar.gz
+	✔ **/*.7z
+	✔ **/*.iso
+	✔ **/*.rpm
+	✔ **/*.gz
+	✔ **/*.rar
+	✔ **/*.whl
+	✔ **/*.tgz
+✔  binary-document: Did not find a file matching the specified patterns
+	✔ **/*.pdf
+	✔ **/*.doc
+	✔ **/*.docx
+	✔ **/*.xls
+	✔ **/*.xlsx
+	✔ **/*.ppt
+	✔ **/*.pptx
+	✔ **/*.odt
+⚠  font-file: Found files
+	ℹ PolicyUrl: https://w.amazon.com/bin/view/Open_Source/Tools/Repolinter/Ruleset/Font-File (packages/web/public/audio-chatbot.svg)
+✔  amazon-logo: No file matching hash found
+⚠  third-party-image: Found files
+	ℹ PolicyUrl: https://w.amazon.com/bin/view/Open_Source/Tools/Repolinter/Ruleset/Third-Party-Image
+	⚠ images/software-architecture.png
+	⚠ packages/web/public/icons/image-192x192.png
+	⚠ packages/web/public/icons/image-512x512.png
+	⚠ packages/web/public/icons/screenshot-narrow-config.png
+	⚠ packages/web/public/icons/screenshot-narrow-main.png
+	⚠ packages/web/public/icons/screenshot-wide-config.png
+	⚠ packages/web/public/icons/screenshot-wide-main.png
+	⚠ packages/web/public/audio-chatbot.svg
+✔  dataset: Did not find a file matching the specified patterns
+	✔ **/*.csv
+	✔ **/*.data
+	✔ **/*.tsv
+⚠  dockerfile: Found files
+	ℹ PolicyUrl: https://w.amazon.com/bin/view/Open_Source/Tools/Repolinter/Ruleset/Dockerfile (packages/cdk/docker/Dockerfile)
+✔  general-logo: Did not find a file matching the specified patterns (**/*logo*)
+⚠  dockerfile-download-statement:
+	ℹ PolicyUrl: https://w.amazon.com/bin/view/Open_Source/Tools/Repolinter/Ruleset/Dockerfile-Download-Statement/
+	⚠ packages/cdk/docker/Dockerfile: Contains 'from' on line 3, context: 
+	|FROM node:23-slim
+	⚠ packages/cdk/docker/Dockerfile: Contains 'curl' on line 14, context: 
+	|HEALTHCHECK CMD curl --fail http://localhost:3000/health
+✔  internal-url: Did not find content matching specified patterns
+✔  prohibited-license: Did not find content matching specified patterns
+⚠  third-party-license-file: Found files
+	ℹ PolicyUrl: https://w.amazon.com/bin/view/Open_Source/Tools/Repolinter/Ruleset/Third-Party-License-File/ (LICENSE)
+⚠  hidden-or-generated-file: Found files
+	ℹ PolicyUrl: https://w.amazon.com/bin/view/Open_Source/Tools/Repolinter/Ruleset/Hidden-Generated-File
+	⚠ .git
+	⚠ .github
+	⚠ .gitignore
+	⚠ .vscode
+	⚠ packages/api/.env.template
+	⚠ packages/cdk/.gitignore
+✔  large-file: No file larger than 500000 bytes found.

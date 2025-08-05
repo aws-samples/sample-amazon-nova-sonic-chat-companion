@@ -1,0 +1,5 @@
+cdk.out/*
+cdk.out/**
+docker/public
+docker/dist
+cdk.context.json

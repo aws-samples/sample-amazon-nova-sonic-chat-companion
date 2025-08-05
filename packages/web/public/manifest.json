@@ -1,0 +1,23 @@
+{
+    "name": "Sonic Nova Chat",
+    "short_name": "Sonic Nova",
+    "description": "Natural voice conversation with Amazon Nova Sonic",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+        {
+            "src": "icons/image-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "icons/image-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
