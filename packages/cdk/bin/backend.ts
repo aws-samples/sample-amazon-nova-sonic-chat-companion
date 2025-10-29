@@ -15,7 +15,7 @@ const app = new cdk.App();
 
 cdk.Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }));
 new SonicBackendStack(app, "SonicBackendStack", {
-  randomHeaderValue: crypto.randomBytes(48).toString("base64"),
+  // randomHeaderValue: crypto.randomBytes(48).toString("base64"),
   env: env,
   //DomainName root - this is a route53 hosted domain that is in the same account as this stack
   domainName: process.env.DOMAIN_NAME!,

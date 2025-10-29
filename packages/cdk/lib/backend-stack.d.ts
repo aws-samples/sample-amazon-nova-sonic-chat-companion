@@ -1,11 +1,10 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
-export interface StreamlitStackProps extends cdk.StackProps {
+export interface StackProps extends cdk.StackProps {
     domainName: string;
     apiName: string;
-    accesslogging?: boolean;
-    randomHeaderValue: string;
+    accessLogging?: boolean;
 }
 export declare class SonicBackendStack extends cdk.Stack {
-    constructor(scope: Construct, id: string, props: StreamlitStackProps);
+    constructor(scope: Construct, id: string, props: StackProps);
 }

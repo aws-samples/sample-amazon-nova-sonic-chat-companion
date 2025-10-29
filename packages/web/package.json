@@ -1,6 +1,6 @@
 {
     "name": "@nova-s2s/web",
-    "packageManager": "pnpm",
+    "packageManager": "pnpm@10.6.1",
     "private": true,
     "version": "0.0.0",
     "type": "module",
