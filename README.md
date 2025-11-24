@@ -206,6 +206,86 @@ import { ToolRunner } from "./toolRunner";
 ToolRunner.getInstance().registerTool(new MyNewTool());
 ```
 
+## Using MCP (Model Context Protocol) Tools
+
+The application includes a built-in MCP (Model Context Protocol) tool management interface, allowing you to extend the AI assistant's capabilities by connecting to external APIs and services without any coding.
+
+### Accessing MCP Tool Management
+
+1. Open the application and click the **configuration button** (⚙️)
+2. Scroll to the **External Tools** section
+3. Click **Manage MCP Tools** to open the tool management panel
+
+### Adding a New MCP Tool
+
+To add an MCP tool, you'll need the following information from your MCP service provider:
+
+- **Tool Name**: A descriptive name (e.g., "Weather API")
+- **Tool Endpoint**: The URL where the tool can be accessed (e.g., `https://api.example.com/weather`)
+- **Client ID**: Your OAuth client identifier
+- **Client Secret**: Your OAuth client secret (stored securely and encrypted)
+- **Additional instructions**: You can provide additional instructions that are appended to the tools results from this server
+
+**Steps to add a tool:**
+
+1. Click the **Add Server** button
+2. Fill in all required fields
+3. Optionally add a description to help you remember what the tool does
+4. Toggle **Enable tool** if you want it active immediately
+5. Click **Create Tool**
+
+The tool will be validated and made available to the AI assistant automatically.
+
+### Managing Your Tools
+
+Once tools are added, you can:
+
+- **Test Connection**: Click the test tube icon (🧪) to verify the tool is working and OAuth is configured correctly
+- **Edit Tool**: Click the edit icon (✏️) to update configuration (you can change everything except the secret will only update if provided)
+- **Delete Tool**: Click the trash icon (🗑️) to remove a tool permanently
+- **Enable/Disable**: Toggle tools on/off without deleting them
+
+### Using Tools in Conversations
+
+Once an MCP tool is added and enabled:
+
+1. The AI assistant automatically knows about the tool and its capabilities
+2. During voice conversations, the AI will use the tool when appropriate
+3. You'll see tool calls reflected in the conversation history
+4. Tool responses are seamlessly integrated into the AI's answers
+
+For example, if you've added a weather tool, you can simply ask "What's the weather like in London?" and the AI will automatically call your weather tool to get real-time data.
+
+### Tool Security
+
+- Client secrets are encrypted using AWS KMS and stored securely in Parameter Store
+- OAuth tokens are cached in memory only and automatically refreshed
+- All tool communications use secure HTTPS connections
+- Tools can be disabled at any time without losing configuration
+
+### Troubleshooting
+
+**Tool shows error status:**
+
+- Click the test button to see the specific error
+- Verify your Client ID and Secret are correct
+- Check that the OAuth Token Endpoint is accessible
+- Ensure your tool endpoint is reachable
+
+**AI doesn't use my tool:**
+
+- Verify the tool is enabled (green checkmark)
+- Make sure your request is relevant to the tool's capability
+- Check that the tool description clearly explains its purpose
+
+**Tool test fails:**
+
+- Verify connectivity to the tool endpoint
+- Check OAuth credentials with your service provider
+- Ensure required scopes are configured correctly
+
+For detailed technical documentation about MCP integration, see [packages/api/MCP_INTEGRATION.md](packages/api/MCP_INTEGRATION.md).
+
 ## Infrastructure
 
 The application can be deployed using AWS CDK with the following resources:
@@ -251,7 +331,7 @@ pnpm build
 ```bash
 cd packages/cdk
 pnpm copy-assets
-BUILDX_NO_DEFAULT_ATTESTATIONS=1 AWS_PROFILE=abc AWS_REGION=us-east-1 DOMAIN_NAME=exmaple.com API_NAME=sonic-chat npx cdk deploy
+BUILDX_NO_DEFAULT_ATTESTATIONS=1 AWS_PROFILE=abc AWS_REGION=us-east-1 DOMAIN_NAME=example.com API_NAME=sonic-chat npx cdk deploy
 ```
 
 NOTE: `BUILDX_NO_DEFAULT_ATTESTATIONS=1` is required on Mac OS with the latest Docker Desktop to enable the correct push of the image to ECR. Other solutions might not need it.

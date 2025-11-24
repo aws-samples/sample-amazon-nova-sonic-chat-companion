@@ -37,5 +37,13 @@ export const debug = (message: string, ...args: any[]): void => {
   }
 };
 
+export const warn = (message: string, ...args: any[]): void => {
+  if (args.length > 0) {
+    logger.warn(message, { additionalInfo: args });
+  } else {
+    logger.warn(message);
+  }
+};
+
 // Default export for convenience
 export default logger;
