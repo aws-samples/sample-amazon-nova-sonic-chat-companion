@@ -137,7 +137,7 @@ export class MCPConfigService {
     try {
       await this.deleteSecret(toolId);
     } catch (error) {
-      logger.warn(`Error deleting secret for tool ${toolId}:`, error);
+      logger.warn("Error deleting secret for tool %s:", toolId, error);
     }
   }
 
