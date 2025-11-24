@@ -10,6 +10,8 @@ import fs from "fs-extra";
 import { WaveFile } from "wavefile";
 import { read, write } from "node:fs";
 import { promises as fsPromises } from "fs";
+import mcpRoutes from "./routes/mcpRoutes";
+import { MCPToolLoader } from "./tools/mcpToolLoader";
 
 const logger = process.env.PROD ? _logger : console;
 
@@ -161,6 +163,7 @@ class AudioRecorder {
 // Map to store audio recorders for each session
 const audioRecorders = new Map<string, AudioRecorder>();
 // Configure AWS credentials
+
 const AWS_PROFILE_NAME = process.env.AWS_PROFILE || "bedrock-test";
 
 // Create Express app and HTTP server
@@ -271,6 +274,12 @@ setInterval(
   },
   process.env.PROD !== undefined ? 60000 : 10000
 );
+
+// Enable JSON body parsing for API routes
+app.use(express.json());
+
+// Mount MCP routes
+app.use("/api/mcp", mcpRoutes);
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, "../public")));
@@ -402,7 +411,9 @@ io.on("connection", (socket) => {
 
       socket.on("promptStart", async (params?: { voiceId?: string }) => {
         try {
-          logger.log("Prompt start received");
+          logger.log(
+            `Prompt start received with voice ${params?.voiceId ?? "NONE"}`
+          );
           await session.setupPromptStart(params?.voiceId);
         } catch (err) {
           logger.error("Error processing prompt start:", err);
@@ -621,16 +632,38 @@ app.get("/stats", (req, res) => {
 // Start the server
 const PORT = process.env.PORT || 3000;
 
-// Run initial cleanup when server starts
-cleanupOldRecordings().catch((err) => {
-  logger.error("Error during initial recordings cleanup:", err);
-});
+// Initialize MCP tools on startup
+const initializeServer = async () => {
+  try {
+    logger.log("Initializing server...");
 
-server.listen(PORT, () => {
+    // Run initial cleanup
+    await cleanupOldRecordings().catch((err) => {
+      logger.error("Error during initial recordings cleanup:", err);
+    });
+
+    // Initialize MCP tools
+    const mcpLoader = MCPToolLoader.getInstance();
+    await mcpLoader.initializeMCPTools().catch((err) => {
+      logger.error("Error initializing MCP tools:", err);
+      // Don't fail server startup if MCP tools fail to load
+    });
+
+    logger.log("Server initialization complete");
+  } catch (err) {
+    logger.error("Error during server initialization:", err);
+  }
+};
+
+// Start server and initialize
+server.listen(PORT, async () => {
   logger.log(`Server listening on port ${PORT}`);
   logger.log(
     `Open http://localhost:${PORT} in your browser to access the application`
   );
+
+  // Initialize after server starts
+  await initializeServer();
 });
 
 const shutdown = async () => {

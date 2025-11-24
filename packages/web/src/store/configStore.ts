@@ -1,15 +1,28 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+export type VoiceId =
+  | "matthew"
+  | "tiffany"
+  | "amy"
+  | "ambre"
+  | "florian"
+  | "beatrice"
+  | "lorenzo"
+  | "greta"
+  | "lennart"
+  | "lupe"
+  | "carlos";
+
 interface ConfigState {
   systemPrompt: string;
   temperature: number;
-  voiceId: "matthew" | "tiffany" | "amy";
+  voiceId: VoiceId;
   debug: boolean;
 
   setSystemPrompt: (prompt: string) => void;
   setTemperature: (temperature: number) => void;
-  setVoiceId: (voiceId: "matthew" | "tiffany" | "amy") => void;
+  setVoiceId: (voiceId: VoiceId) => void;
   setDebug: (debug: boolean) => void;
 }
 
@@ -25,7 +38,7 @@ export const useConfigStore = create<ConfigState>()(
       debug: false,
       setSystemPrompt: (prompt: string) => set({ systemPrompt: prompt }),
       setTemperature: (temperature: number) => set({ temperature }),
-      setVoiceId: (voiceId: "matthew" | "tiffany" | "amy") => set({ voiceId }),
+      setVoiceId: (voiceId: VoiceId) => set({ voiceId }),
       setDebug: (debug: boolean) => set({ debug }),
     }),
     {

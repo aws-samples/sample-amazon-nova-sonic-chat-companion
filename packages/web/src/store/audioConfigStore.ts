@@ -23,8 +23,8 @@ export const useAudioConfigStore = create<AudioConfigState>()(
   persist(
     (set) => ({
       loopBackGain: 0.0,
-      echoSuppression: false,
-      noiseSuppression: false,
+      echoSuppression: true,
+      noiseSuppression: true,
       autoGainControl: true,
       inputDeviceId: "default",
       outputDeviceId: "default",

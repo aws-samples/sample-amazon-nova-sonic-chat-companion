@@ -58,6 +58,35 @@ export class SonicBackendStack extends cdk.Stack {
       })
     );
 
+    // Add Parameter Store permissions for MCP tool configuration
+    sonicServerRole.addToPolicy(
+      new PolicyStatement({
+        actions: [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:PutParameter",
+          "ssm:DeleteParameter",
+          "ssm:DescribeParameters",
+        ],
+        resources: [
+          `arn:aws:ssm:${this.region}:${this.account}:parameter/${props.apiName}/mcp/*`,
+        ],
+      })
+    );
+
+    // Add KMS permissions for SecureString decryption/encryption
+    sonicServerRole.addToPolicy(
+      new PolicyStatement({
+        actions: ["kms:Decrypt", "kms:Encrypt", "kms:DescribeKey"],
+        resources: ["*"],
+        conditions: {
+          StringEquals: {
+            "kms:ViaService": `ssm.${this.region}.amazonaws.com`,
+          },
+        },
+      })
+    );
+
     NagSuppressions.addResourceSuppressionsByPath(
       this,
       "/SonicBackendStack/sonicServerRole/DefaultPolicy/Resource",
@@ -82,6 +111,17 @@ export class SonicBackendStack extends cdk.Stack {
         tier: ssm.ParameterTier.STANDARD,
       });
     });
+
+    parameters["API_NAME"] = new ssm.StringParameter(
+      this,
+      `AppEnvVar-API_NAME`,
+      {
+        parameterName: `/${props.apiName}/env/API_NAME`,
+        stringValue: props.apiName,
+        description: `Environment variable API_NAME for ${props.apiName}`,
+        tier: ssm.ParameterTier.STANDARD,
+      }
+    );
 
     // Grant the task role permission to read the parameters
     sonicServerRole.addToPolicy(
