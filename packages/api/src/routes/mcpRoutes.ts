@@ -77,7 +77,7 @@ router.get("/tools/:id", async (req: Request, res: Response): Promise<void> => {
 
     res.json(response);
   } catch (error) {
-    logger.error(`Error fetching MCP tool ${req.params.id}:`, error);
+    logger.error("Error fetching MCP tool %s", req.params.id, error);
     res.status(500).json({
       error: "Failed to fetch MCP tool",
       message: error instanceof Error ? error.message : String(error),
@@ -137,7 +137,7 @@ router.post("/tools", async (req: Request, res: Response): Promise<void> => {
       try {
         await mcpLoader.registerMCPTool(config);
       } catch (error) {
-        logger.error(`Failed to register MCP tool ${toolId}:`, error);
+        logger.error("Failed to register MCP tool %s:", toolId, error);
         // Tool is saved but not loaded - can be fixed by enabling/disabling
       }
     }
@@ -213,7 +213,7 @@ router.put("/tools/:id", async (req: Request, res: Response): Promise<void> => {
     try {
       await mcpLoader.reloadMCPTool(id);
     } catch (error) {
-      logger.error(`Failed to reload MCP tool ${id}:`, error);
+      logger.error("Failed to reload MCP tool %s:", id, error);
     }
 
     // Get updated config
@@ -239,7 +239,7 @@ router.put("/tools/:id", async (req: Request, res: Response): Promise<void> => {
 
     res.json(response);
   } catch (error) {
-    logger.error(`Error updating MCP tool ${req.params.id}:`, error);
+    logger.error("Error updating MCP tool %s:", req.params.id, error);
     res.status(500).json({
       error: "Failed to update MCP tool",
       message: error instanceof Error ? error.message : String(error),
@@ -267,7 +267,7 @@ router.delete("/tools/:id", async (req: Request, res: Response) => {
 
     res.status(204).send();
   } catch (error) {
-    logger.error(`Error deleting MCP tool ${req.params.id}:`, error);
+    logger.error("Error deleting MCP tool %s:", req.params.id, error);
     res.status(500).json({
       error: "Failed to delete MCP tool",
       message: error instanceof Error ? error.message : String(error),
@@ -316,7 +316,7 @@ router.post(
         });
       }
     } catch (error) {
-      logger.error(`Error testing MCP tool ${req.params.id}:`, error);
+      logger.error("Error testing MCP tool %s:", req.params.id, error);
       res.status(500).json({
         error: "Failed to test MCP tool",
         message: error instanceof Error ? error.message : String(error),

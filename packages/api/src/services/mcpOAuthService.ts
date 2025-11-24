@@ -235,7 +235,8 @@ export class MCPOAuthService {
           await this.fetchAndCacheToken(toolId);
         } catch (error) {
           logger.error(
-            `Error auto-refreshing token for tool ${toolId}:`,
+            "Error auto-refreshing token for tool %s:",
+            toolId,
             error
           );
           // Clear the cached token on error so next request will retry
